@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Packages filtering page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Packages filtering page</h1>
+        </div>
+
+        <form method="POST" class="form-inline">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="search_type">Search by:</label>
+                <select name="search_type" class="form-control">
+                    <option value="">All fields</option>
+                    <option value="author">Author</option>
+                    <option value="email">Author's email</option>
+                    <option value="description">Description</option>
+                    <option value="title">Title</option>
+                    <option value="keywords">Keywords</option>
+                    <option value="version">Version</option>
+                    <option value="maintainer">Maintainer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="search_query">Search query:</label>
+                <input type="text" name="search_query" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-default">Search</button>
+            <br>
+        </form>
+
+        {% if packages %}
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="list-group">
+                    {% for package in packages %}
+                    <li class="list-group-item">{{ package.title }}<br>
+                        <span class="text-muted">{{ package.author }} - {{ package.pub_date }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% else %}
+        <p>No packages found.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

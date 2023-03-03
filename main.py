@@ -20,6 +20,7 @@ def parse_xml(xml_content):
         package = {}
         package["title"] = item.xpath("./title/text()")[0]
         package["link"] = item.xpath("./link/text()")[0]
+        package["guid"] = item.xpath("./guid/text()")[0]
         package["description"] = item.xpath("./description/text()")[0]
         package["pub_date"] = item.xpath("./pubDate/text()")[0]
         packages.append(package)
@@ -50,17 +51,17 @@ if __name__ == "__main__":
         # Get environment variables
         USER = os.getenv('API_USER')
         PASSWORD = os.environ.get('API_PASSWORD')
-        DATABASE = os.environ.get('API_PASSWORD')
-        HOST = os.environ.get('API_PASSWORD')
-        PORT = os.environ.get('API_PASSWORD')
+        HOST = os.getenv('DB_HOST'),
+        PORT = os.getenv('DB_PORT'),
+        DB = os.getenv('DB'),
 
         # Connect to the PostgreSQL database
-        conn = psycopg2.connect(database=DATABASE, user=USER, password=PASSWORD, host=HOST, port=PORT)
+        conn = psycopg2.connect(database=DB, user=USER, password=PASSWORD, host=HOST, port=PORT)
 
         # Schedule the app to run once per day
         while True:
             now = datetime.datetime.now()
-            if now.hour == 15 and now.minute == 0:
+            if now.hour == 21 and now.minute == 37:
                 run()
             time.sleep(60)
 
