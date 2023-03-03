@@ -1,3 +1,5 @@
+import os
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.views.generic import ListView
 from .models import Package
@@ -6,9 +8,9 @@ class HomePageView(ListView):
     model = Package
     template_name = "home.html"
     context_object_name = "packages"
+    paginate_by = os.getenv('ITEMS_PER_PAGE')
 
     def get_queryset(self):
-
         queryset = super().get_queryset()
         search_type = self.request.POST.get("search_type", "")
         search_query = self.request.POST.get("search_query", "")
@@ -45,5 +47,8 @@ class HomePageView(ListView):
     def post(self, request, *args, **kwargs):
         # Handle POST requests here
         self.object_list = self.get_queryset()
-        context = self.get_context_data()
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = request.POST.get('page')
+        packages = paginator.get_page(page)
+        context = self.get_context_data(packages=packages)
         return self.render_to_response(context)
