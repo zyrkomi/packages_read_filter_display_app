@@ -34,3 +34,6 @@ PASSWORD - user password
 HOST - host on which db is run
 PORT - port on which db is run
 DB - db name
+
+# Runing the app
+To run the app on Linux or Windows system use virtual environment and install required packages, listed in requirements.txt.
